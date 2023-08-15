@@ -60,10 +60,6 @@
       digitalWrite(LED_BUILTIN, HIGH);
     }
     */
-    
-    
-    
-
   }
 
   static void can__drs_receive(const CANMessage & inMessage){
@@ -77,9 +73,7 @@
   /*if (curr_drsEnable == 1){
       digitalWrite(LED_BUILTIN, HIGH);
     }
-  */
-  
-      
+  */   
   }
 
   static void can__regenmode_receive(const CANMessage & inMessage){
@@ -89,9 +83,6 @@
       digitalWrite(LED_BUILTIN, HIGH);
     }
     */
-
-    
-
   }
 
   static void can__lv_receive (const CANMessage & inMessage)
@@ -121,10 +112,7 @@
     if(curr_hvlow == 5){
       digitalWrite(LED_BUILTIN, HIGH);
     }
-    */
-    
-    
-    
+    */ 
   }
 
   static void can__hvtemp_receive (const CANMessage & inMessage)
@@ -192,8 +180,6 @@
     
 
   }
-  //
-
 
   //Accessors
   int can__get_hvil(){
@@ -202,16 +188,12 @@
   float can__get_launchReady(){
     return curr_launchReady;
   }
-
   float can__get_launchStatus(){
     return curr_launchStatus;
   }
-
-
   float can__get_drsEnable(){
     return curr_drsEnable;
   }
-
   int can__get_drsMode(){
     return curr_drsMode;
 
@@ -224,7 +206,6 @@
   {
     return curr_hv_current;
   }
-
   float can__get_hv()
   {
     return curr_hv;
@@ -233,22 +214,18 @@
   {
     return curr_soc;
   }
-
   float can__get_hvtemp() // E car accumulator
   {
     return curr_hvtemp;
   }
-
   float can__get_lv()
   {
     return curr_lv;
   }
-
   float can__get_hvlow()
   {
     return curr_hvlow;
   }
-
   // diagnostics ---------------------------------
   float can__get_rpm()
   {
@@ -258,17 +235,14 @@
   {
     return curr_bms_fault;
   }
-
   float can__get_bms_warn()
   {
     return curr_bms_warn;
   }
-
   float can__get_bms_stat()
   {
     return curr_bms_stat;
   }
-
   float can__get_tps0voltage() 
   {
     return curr_tps0voltage;
@@ -330,7 +304,7 @@
     {standard2515Filter (CAN_REGEN_ADDR, 0, 0), can__regenmode_receive}, //0x508
     //{standard2515Filter (CAN_LAUNCH_ADDR, 0, 0), can__launch_receive}, //0x50B
     {standard2515Filter (CAN_DRS_ADDR, 0,0), can__drs_receive}, //0x50C
-    {standard2515Filter (CAN_SAFETY, 0, 0), can__vcu_safety_receive},
+    {standard2515Filter (CAN_SAFETY, 0, 0), can__vcu_safety_receive}, //0x506
     {standard2515Filter (CAN_HV_ADDR, 0, 0), can__hv_receive}, // 0x620
     {standard2515Filter (CAN_BAT_TEMP_ADDR, 0, 0), can__hvtemp_receive}, // 0x623
     
@@ -449,7 +423,6 @@
       }
     }
   }
-
 
   void can__receive()
   {

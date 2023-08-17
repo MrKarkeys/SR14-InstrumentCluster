@@ -367,20 +367,20 @@ void leds__lv(float lv, int displayScreen)
 void leds__hvil(int hvil, float hv, int displayScreen){
   if(displayScreen == 0){
     if(hvil == 0 && hv >= 60){
-      leds->setPoint(3, 1, true);
+      leds->setPoint(4, 1, true);
     }
     else{
-      leds->setPoint(3, 1, false);
+      leds->setPoint(4, 1, false);
     }
   }
 }
-void leds__BSPD(float BSPD, int displayScreen){
+void leds__bspd(float BSPD, int displayScreen){
   if(displayScreen == 0){
     if(BSPD == 1){
-      leds->setPoint(4, 0, true);
+      leds->setPoint(3, 0, true);
     }
     else{
-      leds->setPoint(4, 0, false);
+      leds->setPoint(3, 0, false);
     }
   }
 }

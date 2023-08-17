@@ -40,6 +40,7 @@
   int curr_failedthermistor = 0;
   float curr_maxtorque;
   int curr_hvil = 1;
+  int bspd_soft = 0;
   // diagnostics ---------------------------------
   float curr_rpm = 0;
   float curr_bms_fault = 0;
@@ -117,7 +118,7 @@
 
   static void can__hvtemp_receive (const CANMessage & inMessage)
   {
-    curr_hvtemp = ((inMessage.data[5] << 8)  | (inMessage.data[4])) * 0.1f;
+    curr_hvtemp = ((inMessage.data[7] << 8)  | (inMessage.data[6])) * 0.1f;
     /* if (curr_hvtemp == 50){
       digitalWrite(LED_BUILTIN, HIGH);
     }
@@ -174,14 +175,13 @@
   static void can__vcu_safety_receive(const CANMessage &inMessage)
   {
     curr_hvil = inMessage.data[6];
-    if (curr_hvil == 1){
-      digitalWrite(LED_BUILTIN, HIGH);
-    }
-    
-
+    bspd_soft = inMessage.data[1] >> 4;
   }
 
   //Accessors
+  int can__get_bspd(){
+    return bspd_soft;
+  }
   int can__get_hvil(){
     return curr_hvil;
   }

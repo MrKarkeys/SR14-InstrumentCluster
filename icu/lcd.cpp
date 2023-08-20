@@ -729,11 +729,10 @@ void lcd_settings(int rowCount, int prevRowCount) {
         lcd__clear_screen();
         lcd__print_default_screen_template();
       }
-      
-    lcd__print_hv(hv, displayScreen, prevDisplayScreen); //total pack voltage
-    //lcd__print_drs(drsMode, displayScreen);
-    //lcd__print_rgm(regenmode, displayScreen);
-    //lcd__print_launch(launchReady, displayScreen);
+      lcd__print_hv(hv, displayScreen, prevDisplayScreen); //total pack voltage
+      //lcd__print_drs(drsMode, displayScreen);
+      //lcd__print_rgm(regenmode, displayScreen);
+      //lcd__print_launch(launchReady, displayScreen);
     }
     if (displayScreen == 1) 
     {

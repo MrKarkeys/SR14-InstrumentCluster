@@ -46,7 +46,7 @@ float drsEnable = 0.0f;
 int drsMode = 0;
 float launchReady = 0.0f;
 float launchStatus = 0.0f;
-int hvil = 1;
+int hvil = 0;
 int bspd = 0;
 
 // diagnostics ---------------------------
@@ -230,7 +230,7 @@ void loop()
   leds__hvtemp(hvtemp, displayScreen);
   leds__hvil(hvil, hv, displayScreen);
   leds__bspd(bspd, displayScreen);
-
+  
 #endif
   //delay(500);
 }

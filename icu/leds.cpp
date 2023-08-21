@@ -364,14 +364,24 @@ void leds__lv(float lv, int displayScreen)
 
 
 //LEDS on displayScreen 0
+int prev_hvil  = -1;
 void leds__hvil(int hvil, float hv, int displayScreen){
   if(displayScreen == 0){
-    if(hvil == 0 && hv >= 60){
+    if((hvil == (prev_hvil - 1)) && hv >= 60){
       leds->setPoint(4, 1, true);
+      Serial.print("TRUE: ");
+      Serial.println(hvil);
     }
     else{
       leds->setPoint(4, 1, false);
+      prev_hvil == -1;
+      Serial.print("NOT TRUE: ");
+      Serial.println(hvil);
     }
+  }
+
+  if(prev_hvil == -1){
+    prev_hvil = hvil;
   }
 }
 void leds__bspd(float BSPD, int displayScreen){

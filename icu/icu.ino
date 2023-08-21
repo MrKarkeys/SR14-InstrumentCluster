@@ -220,7 +220,7 @@ void loop()
 
 #if (POWERTRAIN_TYPE == 'E')
 //     leds__safety_update_flash(hvlow, hvtemp, curr_millis);
-  lcd__update_screenE(hv, soc, lv, hvlow, hvtemp, hvCurr, drsMode, regenmode, 
+  lcd__update_screenE(hvil, hv, soc, lv, hvlow, hvtemp, hvCurr, drsMode, regenmode, 
     launchReady, tps0volt, tps0calib, tps1volt, tps1calib, bps0volt, 
     bps0calib, cell_over_volt, pack_over_volt, monitor_comm, precharge, failedthermistor, maxtorque, displayScreen, rowCount, prevDisplayScreen, 
     prevRowCount,currentStateCLK, lastStateCLK, currentStateDT, curr_millis);

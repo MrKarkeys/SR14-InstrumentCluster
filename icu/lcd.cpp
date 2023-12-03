@@ -10,6 +10,7 @@ uint32_t prev_millis_lcd = 0;
 uint16_t rpm_prev = -1;
 uint8_t gear_prev = -1;
 float soc_prev = -1.0f;
+float hvil_prev = -1.0f;
 float hv_prev = -1.0f;
 float lv_prev = -1.0f;
 float tps0_voltprev = -1.0f;
@@ -128,20 +129,19 @@ void lcd_welcome_screen()
 
 void lcd__print_default_screen_template()
 {
-  //lcd__print8(104, 45, "HV T");
   //lcd__print8(0, 45, "LV");
   //lcd__print8(45, 28, "VOLTS");
   //lcd__print8(47, 40, "SOC%");
   //lcd__print8(0, 0, "RPM Screen");
   //lcd__print8(0, 10, "HV CURR");
-  lcd__print8(57, 28, "DRS");
-  lcd__print8(57, 43, "REGEN");
+  lcd__print8(101, 28, "BSPD");
+  //lcd__print8(100, 43, "REGEN");
   //lcd__print8(57, 58, "LAUNCH"); // Launch Control
   // lcd__print8(10, 10, "SOC"); // State of Charge
   //lcd__print8(10, 10, "VOL");
   //lcd__print8(10, 20, "0/400"); // Max Pack Voltage
   lcd__print8(0, 20, "HV T"); // Lowest Cell Temp
-  lcd__print8(0, 38, "HV"); // Low Voltage
+  lcd__print8(0, 35, "HV"); // Low Voltage
   //lcd__print14(10, 62, "SOC");
   // lcd__print8(5,5,"------");
 
@@ -213,7 +213,7 @@ void lcd__clear_section (uint8_t sect)
   int rgm[] = {100, 35, 20, 14};
   int drs[] = {100, 15, 30, 14};
   int launch[] = {100, 49, 40, 14};
-  int hv[] = {25, 10, 25, 18};
+  int hv[] = {35, 10, 65, 35};
   int torque[] = {59, 15, 20, 9};
   int tps0volt[] = {70, 2, 20, 10};
   int tps0calib[] = {80, 14, 20, 10};
@@ -583,12 +583,32 @@ void lcd__print_hv(float hv, int displayScreen, int prevDisplayScreen) // accumu
   hv_prev = hv; // else, update value_prev=value and redraw that section
   // to test: 0 == hv_prev & hv=hv_prev--
 
-  char hv_str[6] = "   ";
+  char hv_str[6] = "   ";  
   // Round to one decimal place
   sprintf(hv_str, "%05.1f", hv);
 
   lcd__clear_section(3);
-  lcd__print14(40, 15, hv_str);
+  lcd__print18(35, 40, hv_str);
+  }
+}
+
+void lcd__print_hvil(float hvil, int displayScreen, int prevDisplayScreen){
+  if(displayScreen == 0){
+  if (hvil == hvil_prev && displayScreen == prevDisplayScreen){ // if the value is the same, don't update that "section"
+    hvil = -1;
+    
+    return;
+  } 
+
+  hvil_prev = hvil; // else, update value_prev=value and redraw that section
+  // to test: 0 == hv_prev & hv=hv_prev--
+
+
+  char hvil_str[5] = " ";
+  sprintf(hvil_str, "%5.1f", hvil);  
+
+  lcd__clear_section(3);
+  lcd__print14(35, 60, hvil_str);
   }
 }
 
@@ -714,7 +734,7 @@ void lcd_settings(int rowCount, int prevRowCount) {
 
 }
 
- void lcd__update_screenE(float hv, float soc, float lv, float hvlow, float hvtemp, float hvcurr, int drsMode, int regenmode, 
+ void lcd__update_screenE(float hvil, float hv, float soc, float lv, float hvlow, float hvtemp, float hvcurr, int drsMode, int regenmode, 
   float launchReady, float tps0volt, float tps0calib, float tps1volt, float tps1calib, float bps0volt,
   float bps0calib, int cell_over_volt, int pack_over_volt, int monitor_comm, int precharge, int failedthermistor, float maxtorque, int displayScreen, int& rowCount, int& prevDisplayScreen, 
   int& prevRowCount,int currentStateCLK, int lastStateCLK, int currentStateDT, uint32_t curr_millis_lcd)
@@ -730,11 +750,11 @@ void lcd_settings(int rowCount, int prevRowCount) {
         lcd__clear_screen();
         lcd__print_default_screen_template();
       }
-      
-    lcd__print_hv(hv, displayScreen, prevDisplayScreen);
-    lcd__print_drs(drsMode, displayScreen);
-    lcd__print_rgm(regenmode, displayScreen);
-    //lcd__print_launch(launchReady, displayScreen);
+      lcd__print_hv(hv, displayScreen, prevDisplayScreen); //total pack voltage
+      //lcd__print_hvil(hvil, displayScreen, prevDisplayScreen);
+      //lcd__print_drs(drsMode, displayScreen);
+      //lcd__print_rgm(regenmode, displayScreen);
+      //lcd__print_launch(launchReady, displayScreen);
     }
     if (displayScreen == 1) 
     {

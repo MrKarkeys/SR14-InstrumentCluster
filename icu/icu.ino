@@ -1,3 +1,4 @@
+
 #include "config.h"
 #include "leds.h"
 #include "can.h"
@@ -45,7 +46,8 @@ float drsEnable = 0.0f;
 int drsMode = 0;
 float launchReady = 0.0f;
 float launchStatus = 0.0f;
-int hvil = 1;
+int hvil = 0;
+int bspd = 0;
 
 // diagnostics ---------------------------
 uint16_t rpm = 0;
@@ -162,6 +164,7 @@ void loop()
   hv = can__get_hv();
   hvCurr = can__get_hv_current();
   hvil = can__get_hvil();
+  bspd = can__get_bspd();
   soc = can__get_soc();
 //  wattemp = can__get_wattemp(); // no can
   hvtemp = can__get_hvtemp();
@@ -217,19 +220,17 @@ void loop()
 
 #if (POWERTRAIN_TYPE == 'E')
 //     leds__safety_update_flash(hvlow, hvtemp, curr_millis);
-    lcd__update_screenE(hv, soc, lv, hvlow, hvtemp, hvCurr, drsMode, regenmode, 
-      launchReady, tps0volt, tps0calib, tps1volt, tps1calib, bps0volt, 
-      bps0calib, cell_over_volt, pack_over_volt, monitor_comm, precharge, failedthermistor, maxtorque, displayScreen, rowCount, prevDisplayScreen, 
-      prevRowCount,currentStateCLK, lastStateCLK, currentStateDT, curr_millis);
-    leds__rpm_update_tach(rpm);
-    leds__drsEnable(drsEnable, displayScreen);
-    leds__launchReady(launchStatus, displayScreen);
-    leds__lv(lv,displayScreen);
-    leds__debug(displayScreen);
-    leds__regenMode(regenmode, displayScreen);
-    leds__hvtemp(hvtemp, displayScreen);
-    leds__hvil(hvil, hv);
-
+  lcd__update_screenE(hvil, hv, soc, lv, hvlow, hvtemp, hvCurr, drsMode, regenmode, 
+    launchReady, tps0volt, tps0calib, tps1volt, tps1calib, bps0volt, 
+    bps0calib, cell_over_volt, pack_over_volt, monitor_comm, precharge, failedthermistor, maxtorque, displayScreen, rowCount, prevDisplayScreen, 
+    prevRowCount,currentStateCLK, lastStateCLK, currentStateDT, curr_millis);
+  leds__rpm_update_tach(rpm);
+  leds__lv(lv,displayScreen);
+  leds__debug(displayScreen);
+  leds__hvtemp(hvtemp, displayScreen);
+  leds__hvil(hvil, hv, displayScreen);
+  leds__bspd(bspd, displayScreen);
+  
 #endif
   //delay(500);
 }

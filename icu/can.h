@@ -48,6 +48,7 @@ int can__get_drsMode();
 float can__get_launchReady();
 float can__get_launchStatus();
 int can__get_hvil();
+int can__get_bspd();
 // diagnostics ---------------------------
 float can__get_rpm(); // not tested
 float can__get_bms_fault(); //
